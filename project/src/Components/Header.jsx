@@ -5,7 +5,7 @@ import { TiThMenu } from "react-icons/ti";
 
 const Header = () => {
   return (
-    <section className="flex md:flex-row md:gap-24 items-center max-w-[96%] mx-auto py-4">
+    <section className="flex md:gap-24 items-center max-w-[96%] mx-auto py-4">
       <Logo />
       <Navigation />
     </section>
@@ -16,14 +16,14 @@ const Header = () => {
 const Logo = () => {
   // const navigate = useNavigate();
   return (
-    <section className="flex sm:none justify-between items-center w-full">
+    <section className="">
       <div className="text-4xl flex items-center gap-2">
         <h1 className="logo-text font-bold text-red-800">MoviePlace</h1>
         <GiPopcorn className="text-red-800" />
       </div>
-      <div className="text-3xl text-red-800 sm:hidden">
+      {/* <div className="text-3xl text-red-800 sm:hidden">
         <TiThMenu />
-      </div>
+      </div> */}
     </section>
   );
 };
