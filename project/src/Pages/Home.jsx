@@ -35,6 +35,12 @@ const HeroHeader = ({ FilterState, setFilterState }) => {
                 onChange={(e) => {
                   setFilterState(e.target.value);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault(); // Prevents form submission if inside a form
+                    console.log("Searching for:", FilterState); // Optional: Log search query
+                  }
+                }}
                 className="bg-none appearance-none border-[0px] w-full sm:w-[200px] md:w-[300px] lg:w-[400px] xl:w-[500px] outline-none py-2 text-[14px] text-red-800 font-medium capitalize"
               />
             </div>
@@ -82,7 +88,7 @@ const Movies = ({ FilterState }) => {
             <div key={search.imdbID} className="mt-8 shadow-lg rounded-sm">
               <img
                 src={search.Poster}
-                alt={search.Title}
+                alt="No Image"
                 width="100%"
                 className="rounded-md"
               />
