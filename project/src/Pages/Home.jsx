@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
+import { RiMovie2Line } from "react-icons/ri";
 
 // the components starts here
 const HomeMovies = () => {
@@ -75,9 +76,9 @@ const Movies = ({ FilterState }) => {
 
   return (
     <section>
-      <div className="movies_list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 py-8 border-b border-b-[#989898]">
-        {fetchMovies.length > 0 ? (
-          fetchMovies.map((search) => (
+      {fetchMovies.length > 0 ? (
+        <div className="movies_list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 py-8 border-b border-b-[#989898]">
+          {fetchMovies.map((search) => (
             <div key={search.imdbID} className="mt-8 shadow-lg rounded-sm">
               <img
                 src={search.Poster}
@@ -95,13 +96,18 @@ const Movies = ({ FilterState }) => {
                 </p>
               </div>
             </div>
-          ))
-        ) : (
-          <p className="text-red-600 text-center font-semibold py-4">
-            {fetchError}
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center h-screen gap-8">
+          <p className="text-8xl text-red-800 animate-spin">
+            <RiMovie2Line />
           </p>
-        )}
-      </div>
+          <p className="text-red-800 text-center font-semibold">
+            fetching your movies
+          </p>
+        </div>
+      )}
     </section>
   );
 };
