@@ -5,16 +5,19 @@ import { FaSearch } from "react-icons/fa";
 
 // the components starts here
 const HomeMovies = () => {
+  const [FilterState, setFilterState] = useState("batman");
+  // console.log(FilterState);
   return (
     <section className="max-w-[92%] mx-auto py-8">
-      <HeroHeader />
-      <Movies />
+      <HeroHeader FilterState={FilterState} setFilterState={setFilterState} />
+      <Movies FilterState={FilterState} />
     </section>
   );
 };
 
 // the header -all movies, the search bar and the filter functionality
-const HeroHeader = () => {
+const HeroHeader = ({ FilterState, setFilterState }) => {
+  // search functionality
   return (
     <React.Fragment>
       <section className="">
@@ -27,6 +30,10 @@ const HeroHeader = () => {
               <input
                 type="search"
                 placeholder="Search your favorite movies"
+                value={FilterState}
+                onChange={(e) => {
+                  setFilterState(e.target.value);
+                }}
                 className="bg-none appearance-none border-[0px] w-[200px] sm:w-[200px] md:w-[300px] lg:w-[400px] xl:w-[500px] outline-none"
               />
             </div>
@@ -37,60 +44,63 @@ const HeroHeader = () => {
   );
 };
 
-const Movies = () => {
-  // useState for the fetch request on all the movies
+const Movies = ({ FilterState }) => {
   const [fetchMovies, setFetchMovies] = useState([]);
   const [fetchError, setFetchError] = useState("");
 
-  // useEffect for the fetch axios
   const fetchingMovies = async () => {
     try {
       const response = await axios.get("https://www.omdbapi.com/", {
         params: {
           apikey: "55b26e86",
-          s: "batman",
+          s: FilterState,
         },
       });
       if (response.status === 200) {
-        setFetchMovies(response.data.Search);
+        setFetchMovies(response.data.Search || []);
       } else {
         setFetchMovies([]);
-        setFetchError(error);
+        setFetchError("No movies found");
       }
     } catch (err) {
       console.error("Error fetching movies:", err);
+      setFetchMovies([]);
+      setFetchError("Failed to fetch movies");
     }
   };
 
   useEffect(() => {
     fetchingMovies();
-  }, []);
+  }, [FilterState]);
 
   return (
-    <section className="">
+    <section>
       <div className="movies_list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 py-8 border-b border-b-[#989898]">
-        {fetchMovies.map((search) => (
-          <div key={search.imdbID} className="mt-8 shadow-lg rounded-sm">
-            <img
-              src={search.Poster}
-              alt={search.Title}
-              width="100%"
-              className="rounded-md"
-            />
-            <div className="text-lg cursor-pointer font-normal pt-2 pb-4 px-2 hover:text-red-800 duration-300">
-              <p>{search.Title}</p>
-              <p>
-                Released:{" "}
-                <span className="text-yellow-700 font-semibold text-xl">
-                  {search.Year}
-                </span>
-              </p>
-              {/* <p className="flex justify-end mt-2 text-base text-red-800 cursor-pointer font-bold">
-                View all
-              </p> */}
+        {fetchMovies.length > 0 ? (
+          fetchMovies.map((search) => (
+            <div key={search.imdbID} className="mt-8 shadow-lg rounded-sm">
+              <img
+                src={search.Poster}
+                alt={search.Title}
+                width="100%"
+                className="rounded-md"
+              />
+              <div className="text-lg cursor-pointer font-normal pt-2 pb-4 px-2 hover:text-red-800 duration-300">
+                <p>{search.Title}</p>
+                <p>
+                  Released:{" "}
+                  <span className="text-yellow-700 font-semibold text-xl">
+                    {search.Year}
+                  </span>
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-red-600 text-center font-semibold py-4">
+            {fetchError}
+          </p>
+        )}
       </div>
     </section>
   );
