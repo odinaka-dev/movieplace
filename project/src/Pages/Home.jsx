@@ -22,7 +22,7 @@ const HeroHeader = ({ FilterState, setFilterState }) => {
   return (
     <React.Fragment>
       <section className="">
-        <div className="flex justify-between gap-2 items-center">
+        <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
           <h1 className="text-2xl font-medium capitalize">all movies</h1>
           {/* The search bar functionality */}
           <div className="search_bar">
@@ -35,7 +35,7 @@ const HeroHeader = ({ FilterState, setFilterState }) => {
                 onChange={(e) => {
                   setFilterState(e.target.value);
                 }}
-                className="bg-none appearance-none border-[0px] w-[200px] sm:w-[200px] md:w-[300px] lg:w-[400px] xl:w-[500px] outline-none"
+                className="bg-none appearance-none border-[0px] w-full sm:w-[200px] md:w-[300px] lg:w-[400px] xl:w-[500px] outline-none py-2 text-[14px] text-red-800 font-medium capitalize"
               />
             </div>
           </div>
@@ -54,7 +54,7 @@ const Movies = ({ FilterState }) => {
       const response = await axios.get("https://www.omdbapi.com/", {
         params: {
           apikey: "55b26e86",
-          s: FilterState,
+          s: FilterState.trim(),
         },
       });
       if (response.status === 200) {
