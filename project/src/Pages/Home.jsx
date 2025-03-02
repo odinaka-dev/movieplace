@@ -27,7 +27,7 @@ const HeroHeader = ({ FilterState, setFilterState }) => {
           {/* The search bar functionality */}
           <div className="search_bar">
             <div className="flex gap-2 items-center bg-red-100 py-2 px-4">
-              <FaSearch className="text-[14px]" />
+              <FaSearch className="text-[16px]" />
               <input
                 type="search"
                 placeholder="Search your favorite movies"
@@ -105,7 +105,7 @@ const Movies = ({ FilterState }) => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center h-screen gap-8">
+        <div className="flex flex-col justify-center items-center h-[80vh] md:h-screen gap-8">
           <p className="text-8xl text-red-800 animate-spin">
             <RiMovie2Line />
           </p>
